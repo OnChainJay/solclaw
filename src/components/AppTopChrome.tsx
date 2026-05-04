@@ -16,6 +16,7 @@ export function AppTopChrome() {
   const {
     sidebarOpen,
     setSidebarOpen,
+    sidebarMode,
     setSidebarMode,
     activitySection,
     setActivitySection,
@@ -41,7 +42,7 @@ export function AppTopChrome() {
           : "border-red-500/40 bg-gradient-to-b from-red-950/75 via-red-950/55 to-red-950/[0.42]")
       }
     >
-      {/* Incomplete setup: obvious band above the nav — reads as “needs attention” */}
+      {/* Incomplete setup: obvious band above the nav — reads as "needs attention" */}
       {!complete ? (
         <div
           className="flex shrink-0 items-center justify-center border-b border-red-500/25 bg-red-600/10 px-4 py-1.5 text-center text-[11px] font-medium text-red-100/95"
@@ -97,6 +98,16 @@ export function AppTopChrome() {
               onClick={() => {
                 setActivitySection("code");
                 setSidebarMode("code");
+                setSidebarOpen(true);
+              }}
+            />
+          </Tooltip>
+          <Tooltip text="Multi-token scanner — runs Lowest-Low algo across Nursery tokens" side="bottom" delay={500}>
+            <NavTab
+              label="Scanner"
+              active={sidebarMode === "scanner"}
+              onClick={() => {
+                setSidebarMode("scanner");
                 setSidebarOpen(true);
               }}
             />
