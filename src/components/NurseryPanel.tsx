@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { Tooltip } from "@/components/Tooltip";
 import * as nursery from "@/lib/nurseryEngine";
 import type { BondedToken, NurserySnapshot, PreBondToken } from "@/lib/nurseryEngine";
+import { useNurseryBridge } from "@/lib/nurseryBridge";
 
 // ── Formatters ────────────────────────────────────────────────────────────────
 
@@ -245,6 +246,22 @@ export function NurseryPanel({ onOpenToken }: { onOpenToken?: (mint: string) => 
     const id = setInterval(() => setSnap(nursery.getSnapshot()), 4_000);
     return () => clearInterval(id);
   }, []);
+
+  // ── Bridge: expose token lists to the multi-token scanner ──────────────────
+  const zombieForBridge = useMemo(
+    () => snap.oldPairsList.map((t) => ({ mint: t.mint, name: t.name || t.symbol })),
+    [snap.oldPairsList]
+  );
+  const bondingForBridge = useMemo(
+    () => snap.graduatingList.map((t) => ({ mint: t.mint, name: t.name || t.symbol })),
+    [snap.graduatingList]
+  );
+  const prebondForBridge = useMemo(
+    () => snap.newPairsList.map((t) => ({ mint: t.mint, name: t.name || t.symbol })),
+    [snap.newPairsList]
+  );
+  useNurseryBridge(zombieForBridge, bondingForBridge, prebondForBridge);
+  // ──────────────────────────────────────────────────────────────────────────────
 
   const { stats } = snap;
   function openToken(mint: string) { onOpenToken?.(mint); }
