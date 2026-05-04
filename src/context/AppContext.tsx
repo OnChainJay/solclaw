@@ -180,7 +180,7 @@ function loadScalperUserConfig(): ScalperUserConfig {
 }
 
 export type ActivitySection = "analytics" | "models" | "code" | "performance" | "training";
-export type SidebarMode = "analytics" | "models" | "code" | "performance" | "training";
+export type SidebarMode = "analytics" | "models" | "code" | "performance" | "training" | "scanner";
 
 /**
  * A closed bot trade that survives session resets and page reloads.
@@ -259,7 +259,7 @@ export type ChartTapeSummary = {
   buyCount: number;
   sellCount: number;
   solVolume: number;
-  /** Best available MC from recent prints (usually newest trade’s MC). */
+  /** Best available MC from recent prints (usually newest trade's MC). */
   latestMcUsd: number | null;
   recentPrints: ChartTapePrintLite[];
 };
