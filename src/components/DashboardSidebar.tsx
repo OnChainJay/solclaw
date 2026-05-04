@@ -23,6 +23,7 @@ import { SetupPanel } from "@/components/SetupPanel";
 import { WorkspacePanel } from "@/components/WorkspacePanel";
 import { PerformancePanel } from "@/components/PerformancePanel";
 import { TrainingDataPanel } from "@/components/TrainingDataPanel";
+import { ScannerPanel } from "@/components/ScannerPanel";
 import { usePumpPortalConfigRevision } from "@/hooks/usePumpPortalConfigRevision";
 
 /** Empty BotTradesBook copy follows engine phase — exit wording only once you're in a trade. */
@@ -44,14 +45,14 @@ function botTradesBookEmptyHint(snapshot: ScalperPaperSnapshot | null | undefine
   }
 
   if (snapshot.status === "dip") {
-    return `No closed trades yet. Price is dipped but bounce zones aren’t aligned yet (or we’re still scanning). When alignment hits we arm; then the next ${minBuy}+ SOL buy fires the entry.`;
+    return `No closed trades yet. Price is dipped but bounce zones aren't aligned yet (or we're still scanning). When alignment hits we arm; then the next ${minBuy}+ SOL buy fires the entry.`;
   }
 
   if (snapshot.status === "arming") {
     return `No closed trades yet. Armed — dip + zones locked in. The next ${minBuy}+ SOL buy on tape should trigger entry immediately after that print.`;
   }
 
-  return `No closed trades yet. You’re in a trade right now. Finished trades show here after we sell for +${tp}% profit, or after someone sells at least ${stopSol} SOL (that counts as our stop).`;
+  return `No closed trades yet. You're in a trade right now. Finished trades show here after we sell for +${tp}% profit, or after someone sells at least ${stopSol} SOL (that counts as our stop).`;
 }
 
 export function DashboardSidebar() {
@@ -60,6 +61,7 @@ export function DashboardSidebar() {
   if (sidebarMode === "code") return <WorkspacePanel />;
   if (sidebarMode === "performance") return <div className="p-4"><PerformancePanel /></div>;
   if (sidebarMode === "training") return <div className="p-4"><TrainingDataPanel /></div>;
+  if (sidebarMode === "scanner") return <ScannerPanel />;
   return <SetupPanel />;
 }
 
